@@ -1,9 +1,8 @@
 package com.androidclase.listviewexercises;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -34,14 +33,20 @@ public class MainActivity extends ListActivity {
 
     class IconicAdapter extends ArrayAdapter<String> {
         IconicAdapter() {
-            super(MainActivity.this, R.layout.row, R.id.label, items);
+            super(MainActivity.this, R.layout.row, items);
         }
 
         public View getView(int position, View convertView,
                             ViewGroup parent) {
-            View row = super.getView(position, convertView, parent);
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.row, parent, false);
+            TextView label=(TextView)row.findViewById(R.id.label);
+
+            label.setText(items[position]);
+
             ImageView icon = (ImageView) row.findViewById(R.id.icon);
             if (items[position].length() > 4) {
+                label.setTextColor(getResources().getColor(R.color.x_red));
                 icon.setImageResource(R.drawable.x);
             } else {
                 icon.setImageResource(R.drawable.o);
@@ -49,6 +54,4 @@ public class MainActivity extends ListActivity {
             return (row);
         }
     }
-
-
 }
